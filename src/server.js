@@ -29,7 +29,8 @@ if (!fs.existsSync(uploadDir)) {
 }
 
 const corsOptions = {
-    origin: 'https://whatsapp-clone-frontend-lilac.vercel.app',
+    origin:[ 'https://whatsapp-clone-frontend-lilac.vercel.app',
+    'http://localhost:5173'],
     methods: ['GET', 'POST', 'PUT', 'DELETE'],
     credentials: true,
   };
