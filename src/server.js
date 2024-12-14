@@ -18,11 +18,6 @@ const app = express();
 
 app.get('/favicon.ico', (req, res) => res.status(204).end());
 
-const PORT = process.env.PORT || 5002;
-app.listen(PORT, () => {
-  console.log(`Servidor corriendo en el puerto ${PORT}`);
-});
-
 const uploadDir = 'uploads/';
 if (!fs.existsSync(uploadDir)) {
   fs.mkdirSync(uploadDir);
@@ -42,7 +37,6 @@ app.use(express.json());
 // Rutas
 app.use('/api/auth', authRoutes);
 app.use('/api/contacts', contactRoutes);
-app.post('/api/contacts',authMiddleware(), upload.single('image'), handleMulterErrors, createContact);
 app.use('/api/chats', chatRoutes);   
 
 mongoose
