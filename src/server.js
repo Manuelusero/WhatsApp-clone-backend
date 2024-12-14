@@ -22,6 +22,7 @@ const uploadDir = 'uploads/';
 if (!fs.existsSync(uploadDir)) {
   fs.mkdirSync(uploadDir);
 }
+const PORT = process.env.PORT || 5002;
 
 const corsOptions = {
     origin:[ 'https://whatsapp-clone-frontend-lilac.vercel.app',
