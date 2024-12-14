@@ -61,7 +61,7 @@ export const verifyUser = async (req, res) => {
 
     console.log("Cuenta verificada correctamente. Redirigiendo al login...");
 
-    res.redirect('http://localhost:5173/login');
+    res.redirect('https://whatsapp-clone-frontend-lilac.vercel.app/login');
   } catch (error) {
     console.error('Error al verificar usuario:', error);
     res.status(500).json({ message: 'Error al verificar el usuario', error });
@@ -203,7 +203,7 @@ const sendResetPasswordEmail = async (email, token) => {
     to: email,
     subject: "Recuperación de contraseña",
     html: `<p>Restablece tu contraseña haciendo clic en este enlace:</p>
-           <a href="http://localhost:5173/reset-password/${token}">Restablecer contraseña</a>`,
+           <a href="https://whatsapp-clone-frontend-lilac.vercel.app/reset-password/${token}">Restablecer contraseña</a>`,
   };
 
   await transporter.sendMail(mailOptions);

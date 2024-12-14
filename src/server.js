@@ -19,6 +19,9 @@ const app = express();
 app.get('/favicon.ico', (req, res) => res.status(204).end());
 
 const PORT = process.env.PORT || 5002;
+app.listen(PORT, () => {
+  console.log(`Servidor corriendo en el puerto ${PORT}`);
+});
 
 const uploadDir = 'uploads/';
 if (!fs.existsSync(uploadDir)) {
@@ -26,7 +29,7 @@ if (!fs.existsSync(uploadDir)) {
 }
 
 const corsOptions = {
-    origin: 'http://localhost:5173',
+    origin: 'https://whatsapp-clone-frontend-lilac.vercel.app',
     methods: ['GET', 'POST', 'PUT', 'DELETE'],
     credentials: true,
   };
