@@ -12,7 +12,7 @@ export const registerUser = async (req, res) => {
      if (!name || !email || !password) {
       return res.status(400).json({ message: "Todos los campos son obligatorios" });
   }
-    // Validar si el usuario ya existe
+  
     const existingUser = await User.findOne({ email });
     if (existingUser) {
       return res.status(400).json({ message: "El usuario ya existe" });
@@ -41,12 +41,12 @@ export const registerUser = async (req, res) => {
     res.status(500).json({ message: "Error interno del servidor."});
   }
 };
-// Función para verificar el token de verificación del usuario
+
 export const verifyUser = async (req, res) => {
   console.log("Token recibido:", req.params.token);
   const { token } = req.params;
 
-   // Busca al usuario en la base de datos con el token de verificación
+
   try {
     const user = await User.findOne({ verificationToken: token });
 
@@ -54,9 +54,8 @@ export const verifyUser = async (req, res) => {
       return res.status(400).json({ message: 'Token de verificación inválido o expirado.' });
     }
 
-    // Marca al usuario como verificado y elimina el token
     user.isVerified = true;
-    user.verificationToken = null; // Limpiar el token de verificación
+    user.verificationToken = null; 
     await user.save(); 
 
     console.log("Cuenta verificada correctamente. Redirigiendo al login...");
@@ -76,14 +75,13 @@ export const loginUser = async (req, res) => {
       return res.status(400).json({ message: 'Email y contraseña son obligatorios' });
     }
 
-    // Buscar el usuario
     const user = await User.findOne({ email });
     console.log('Usuario encontrado:', user);
     if (!user) {
       return res.status(400).json({ message: "Credenciales mal" });
     }
     
-    // Verificar si el usuario está verificado
+    
     if (!user.isVerified) {
       return res.status(403).json({ message: "Cuenta no verificada. Por favor, verifica tu correo." });
     }
@@ -129,7 +127,7 @@ export const forgotPassword = async (req, res) => {
 
     const resetToken = crypto.randomBytes(32).toString("hex");
     user.resetToken = resetToken;
-    user.resetTokenExpire = Date.now() + 3600000; // Token válido por 1 hora
+    user.resetTokenExpire = Date.now() + 3600000; 
     await user.save();
 
     await sendResetPasswordEmail(email, resetToken);
@@ -171,7 +169,7 @@ export const resetPassword = async (req, res) => {
 // Función para enviar correos electrónicos
 export const sendVerificationEmail = async (email, verificationToken) => {
   const transporter = nodemailer.createTransport({
-    service: "gmail", // Cambia el servicio si usas otro proveedor
+    service: "gmail", 
     auth: {
       user: process.env.EMAIL_USER,
       pass: process.env.EMAIL_PASS,

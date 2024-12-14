@@ -1,7 +1,6 @@
 import Contact from '../models/Contact.js';
 import fs from 'fs';
 
-// Crear un nuevo contacto con imagen
 export const createContact = async (req, res) => {
     const { name, email, phone } = req.body;
     
@@ -9,7 +8,7 @@ export const createContact = async (req, res) => {
     if (req.file) {
       const filePath = req.file.path;
       imageBase64 = fs.readFileSync(filePath, { encoding: 'base64' });
-      // Elimina el archivo después de convertirlo
+     
       fs.unlinkSync(filePath);
     }
   
@@ -22,7 +21,7 @@ export const createContact = async (req, res) => {
         name,
         email,
         phone,
-        image: imageBase64, // Guardamos la imagen en base64
+        image: imageBase64, 
         userId: req.user.id,
       });
   
@@ -38,10 +37,10 @@ export const createContact = async (req, res) => {
       res.status(500).json({ message: 'Error al crear el contacto.' });
     }
   };
-  // Obtener contactos del usuario autenticado
+
   export const getContacts = async (req, res) => {
     try {
-      // Encuentra los contactos relacionados con el usuario autenticado
+     
       const contacts = await Contact.find({ userId: req.user.id });
   
       if (!contacts || contacts.length === 0) {
@@ -50,11 +49,11 @@ export const createContact = async (req, res) => {
   
  
       const formattedContacts = contacts.map((contact) => ({
-        id: contact._id, // Incluye el ID del contacto
+        id: contact._id, 
         name: contact.name,
         email: contact.email,
         phone: contact.phone,
-        thumbnail: contact.image, // Base64 de la imagen
+        thumbnail: contact.image, 
       }));
 
       res.status(200).json(formattedContacts);

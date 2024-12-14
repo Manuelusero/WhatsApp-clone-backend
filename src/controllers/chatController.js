@@ -6,7 +6,7 @@ import mongoose from "mongoose";
 
 const router = Router();
 
-// Obtener un chat por ID
+
 export const getChatByUserId = async (req, res) => {
  
   try {
@@ -29,7 +29,7 @@ export const getChatByUserId = async (req, res) => {
 };
 
 
-// Actualizar mensajes de un chat
+
 export const updateChatMessages = async (req, res) => {
   const { id: userId} = req.params;
   const { messages } = req.body;
@@ -45,7 +45,7 @@ export const updateChatMessages = async (req, res) => {
   }
 };
 
-// Crear un nuevo chat
+
 export const createChat = async (req, res) => {
     console.log("Datos recibidos en la creación del chat:", req.body); 
   const { userId, contactId } = req.body;

@@ -3,7 +3,7 @@ import jwt from 'jsonwebtoken';
 export const authMiddleware = (roles_permitidos = []) => {
   return (req, res, next) => {
     try {
-      // Obtener el token desde el encabezado de autorización
+  
       const authHeader = req.headers['authorization'];
       if (!authHeader) {
         return res.status(401).json({ 
@@ -13,7 +13,7 @@ export const authMiddleware = (roles_permitidos = []) => {
         });
       }
 
-      // Extraer el token del encabezado
+ 
       const token = authHeader.split(' ')[1];
       if (!token) {
         return res.status(401).json({ 
@@ -23,13 +23,13 @@ export const authMiddleware = (roles_permitidos = []) => {
         });
       }
 
-      // Verificar el token usando la clave secreta
+ 
       const decoded = jwt.verify(token, process.env.JWT_SECRET);
 
-      // Adjuntar la información del usuario al objeto `req`
+
       req.user = decoded;
 
-      // Validar roles si se especificaron
+      
       if(roles_permitidos.length &&  !roles_permitidos.includes(req.user.role)){
         return res.status(403).json({
           ok: false,
@@ -38,10 +38,9 @@ export const authMiddleware = (roles_permitidos = []) => {
         });
       }
 
-      // Pasar al siguiente middleware o controlador
       next();
     } catch (error) {
-      // Manejo de errores relacionados con el token
+  
       return res.status(401).json({
         ok: false,
         message: 'Fallo en la autenticación.',

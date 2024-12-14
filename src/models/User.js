@@ -27,8 +27,7 @@ const userSchema = new mongoose.Schema(
         default: false,
       },
 
-      //Agregar contacts con el type : mongoose.Schema.Types.ObjectId
-      // y el ref: 'User'
+ 
   },
   {
     timestamps: true, 
