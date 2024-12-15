@@ -183,7 +183,7 @@ export const sendVerificationEmail = async (email, verificationToken) => {
     html: `
       <h2>¡Bienvenido a CloneWhatsapp!</h2>
       <p>Por favor, haz clic en el siguiente enlace para verificar tu cuenta:</p>
-      <a href="https://whatsapp-clone-frontend-lilac.vercel.app/login?token=${verificationToken}">Verificar cuenta</a>
+      <a href="https://whatsapp-clone-frontend-lilac.vercel.app/verify/${verificationToken}">Verificar cuenta</a>
     `,
   };
   await transporter.sendMail(mailOptions);
