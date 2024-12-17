@@ -6,7 +6,7 @@ import upload from '../middlewares/upload.js';
 
 const router = express.Router();
 
-router.get('/', authMiddleware(), getContacts);
+router.get('/contacts', authMiddleware(), getContacts);
 
 router.post('/', authMiddleware(), upload.single('image'), createContact); // Subida de imagen
 

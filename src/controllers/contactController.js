@@ -2,7 +2,11 @@ import Contact from '../models/Contact.js';
 import fs from 'fs';
 
 export const createContact = async (req, res) => {
-    const { name, email, phone } = req.body;
+  console.log('Datos recibidos:', req.body);
+console.log('Archivo recibido:', req.file);
+
+    const { name, email, phone,image, } = req.body;
+    const userId = req.user.id;
     
     let imageBase64 = '';
     if (req.file) {
@@ -21,8 +25,9 @@ export const createContact = async (req, res) => {
         name,
         email,
         phone,
-        image: imageBase64, 
-        userId: req.user.id,
+        thumbnail: imageBase64, 
+        image: imageBase64,
+        userId,
       });
   
       await newContact.save();
@@ -39,9 +44,10 @@ export const createContact = async (req, res) => {
   };
 
   export const getContacts = async (req, res) => {
+    const userId = req.user.id;
     try {
      
-      const contacts = await Contact.find({ userId: req.user.id });
+      const contacts = await Contact.find({ userId });
   
       if (!contacts || contacts.length === 0) {
         return res.status(404).json({ message: 'No se encontraron contactos' });
@@ -53,10 +59,10 @@ export const createContact = async (req, res) => {
         name: contact.name,
         email: contact.email,
         phone: contact.phone,
-        thumbnail: contact.image, 
+        thumbnail: contact.thumbnail, 
       }));
 
-      res.status(200).json(formattedContacts);
+      res.status(200).json({contacts:formattedContacts});
     } catch (error) {
       console.error('Error al obtener contactos:', error);
       res.status(500).json({ message: 'Error al obtener los contactos' });
