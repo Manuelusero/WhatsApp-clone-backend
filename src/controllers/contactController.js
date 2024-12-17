@@ -37,6 +37,13 @@ console.log('Archivo recibido:', req.file);
       await newContact.save();
 
       const contacts = await Contact.find({ userId: req.user.id });
+      const formattedContacts = contacts.map((contact) => ({
+        id: contact._id,
+        name: contact.name,
+        email: contact.email,
+        phone: contact.phone,
+        thumbnail: contact.thumbnail,
+      }));
       res.status(201).json(contacts);
     }catch (error) {
       console.error('Error al crear contacto:', error);
@@ -49,12 +56,6 @@ console.log('Archivo recibido:', req.file);
     try {
      
       const contacts = await Contact.find({ userId});
-  
-      if (!contacts || contacts.length === 0) {
-        return res.status(404).json({ message: 'No se encontraron contactos' });
-      }
-  
- 
       const formattedContacts = contacts.map((contact) => ({
         id: contact._id, 
         name: contact.name,
@@ -63,6 +64,13 @@ console.log('Archivo recibido:', req.file);
         thumbnail: contact.thumbnail, 
       }));
 
+  
+      // if (!contacts || contacts.length === 0) {
+      //   return res.status(404).json({ message: 'No se encontraron contactos' });
+      // }
+  
+ 
+     
       res.status(200).json({contacts:formattedContacts});
     } catch (error) {
       console.error('Error al obtener contactos:', error);
