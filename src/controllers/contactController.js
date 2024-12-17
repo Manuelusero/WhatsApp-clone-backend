@@ -11,10 +11,14 @@ console.log('Archivo recibido:', req.file);
     let imageBase64 = '';
     if (req.file) {
       const filePath = req.file.path;
+      try{
       imageBase64 = fs.readFileSync(filePath, { encoding: 'base64' });
-     
       fs.unlinkSync(filePath);
+    } catch (error) {
+      console.error('Error al leer el archivo:', error);
+      return res.status(500).json({ message: 'Error al leer el archivo' });
     }
+  }
   
     if (!name || !email || !phone) {
       return res.status(400).json({ message: 'Todos los campos son obligatorios' });
@@ -33,10 +37,7 @@ console.log('Archivo recibido:', req.file);
       await newContact.save();
 
       const contacts = await Contact.find({ userId: req.user.id });
-      res.status(201).json({
-        message: 'Contacto creado correctamente',
-        contacts,
-      });
+      res.status(201).json(contacts);
     }catch (error) {
       console.error('Error al crear contacto:', error);
       res.status(500).json({ message: 'Error al crear el contacto.' });
@@ -47,7 +48,7 @@ console.log('Archivo recibido:', req.file);
     const userId = req.user.id;
     try {
      
-      const contacts = await Contact.find({ userId });
+      const contacts = await Contact.find({ userId});
   
       if (!contacts || contacts.length === 0) {
         return res.status(404).json({ message: 'No se encontraron contactos' });
