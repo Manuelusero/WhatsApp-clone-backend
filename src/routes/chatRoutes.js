@@ -4,10 +4,10 @@ import { createChat, getChatByUserId, updateChatMessages } from "../controllers/
 
 const router = express.Router();
 
-router.get("/:id", getChatByUserId);
+router.get("/:userId/:contactId", getChatByUserId);
 
 
-router.put("/:id", updateChatMessages);
+router.put("/:userId/:contactId", updateChatMessages);
 
 
 router.post("/", createChat);

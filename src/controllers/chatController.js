@@ -10,8 +10,8 @@ const router = Router();
 export const getChatByUserId = async (req, res) => {
  
   try {
-    const chat = await Chats.findOne({userId: req.params.id})
-    .populate("userId", "name image");     
+    const chat = await Chats.findOne({userId: req.params.userId, contactId: req.params.contactId});
+    // .populate("userId", "name image");     
 
     if (!chat) {
       return res.status(404).json({ message: "Chat no encontrado" });
@@ -21,6 +21,7 @@ export const getChatByUserId = async (req, res) => {
         name: chat.name || "Chat sin nombre",
         thumbnail: chat.image || "https://via.placeholder.com/150",
       };
+console.log(responseChat);
 
     res.json(responseChat);
   } catch (error) {
@@ -31,14 +32,16 @@ export const getChatByUserId = async (req, res) => {
 
 
 export const updateChatMessages = async (req, res) => {
-  const { id: userId} = req.params;
+  const {userId, contactId} = req.params;
   const { messages } = req.body;
   try {
     const updatedChat = await Chats.findOneAndUpdate(
-      { userId},
+      { userId, contactId},
       { $set: { messages } },
       { new: true }
     );
+
+  console.log(updatedChat);
     res.json(updatedChat);
   } catch (error) {
     res.status(500).json({ message: "Error al actualizar los mensajes", error: error.message });

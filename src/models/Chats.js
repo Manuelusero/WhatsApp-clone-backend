@@ -1,7 +1,7 @@
 import mongoose from "mongoose";
 
 const chatsSchema = new mongoose.Schema({
-  userId: { type: mongoose.Schema.Types.ObjectId, required: true, ref: "Contact" }, // Identificador único del chat
+  userId: { type: mongoose.Schema.Types.ObjectId, required: true, ref: "Contact" }, 
   name: { type: String, required: true },
   thumbnail: { type: String , required: false, },       
   contactId: { type: mongoose.Schema.Types.ObjectId, required: true, ref: "Contact" },

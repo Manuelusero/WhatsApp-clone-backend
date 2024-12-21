@@ -26,7 +26,8 @@ const PORT = process.env.PORT || 5002;
 
 const corsOptions = {
     origin:[ 'https://whatsapp-clone-frontend-lilac.vercel.app',
-    'http://localhost:5173'],
+    'http://localhost:5173',
+  ],
     methods: ['GET', 'POST', 'PUT', 'DELETE'],
     credentials: true,
   };
