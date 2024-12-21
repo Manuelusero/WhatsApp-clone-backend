@@ -45,6 +45,7 @@ console.log('Archivo recibido:', req.file);
         thumbnail: contact.thumbnail,
       }));
       res.status(201).json(contacts);
+      formattedContacts()
     }catch (error) {
       console.error('Error al crear contacto:', error);
       res.status(500).json({ message: 'Error al crear el contacto.' });
@@ -71,7 +72,7 @@ console.log('Archivo recibido:', req.file);
   
  
      
-      res.status(200).json({contacts:formattedContacts});
+      res.status(200).json({contacts:formattedContacts || []});
     } catch (error) {
       console.error('Error al obtener contactos:', error);
       res.status(500).json({ message: 'Error al obtener los contactos' });
