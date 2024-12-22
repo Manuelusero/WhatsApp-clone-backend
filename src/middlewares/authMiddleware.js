@@ -23,11 +23,11 @@ export const authMiddleware = (roles_permitidos = []) => {
         });
       }
 
-      console.log('Datos del usuario autenticado:', req.user);
-
+      
       const decoded = jwt.verify(token, process.env.JWT_SECRET);
       req.user = decoded;
-
+      
+      console.log('Datos del usuario autenticado:', req.user);
       
       if(roles_permitidos.length &&  !roles_permitidos.includes(req.user.role)){
         return res.status(403).json({
