@@ -80,15 +80,11 @@ console.log('Archivo recibido:', req.file);
   
       if (!contact) {
         return res.status(404).json({ message: "Contacto no encontrado" });
-      }
-      const responseContact = {
-          ...contact._doc,
-          name: contact.name || "Contacto sin nombre",
-          thumbnail: contact.image || "https://via.placeholder.com/150",
-        };
-  console.log(responseContact);
-  
-      res.json(responseContact);
+      } 
+      res.status(200).json({
+        name: contact.name || "Contacto sin nombre",
+        thumbnail: contact.image || "https://via.placeholder.com/150",
+      });
     } catch (error) {
       res.status(500).json({ message: "Error al obtener el contacto", error: error.message });
     }
