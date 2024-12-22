@@ -16,9 +16,9 @@ export const getChat = async (req, res) => {
       return res.status(404).json({ message: "Chat no encontrado" });
     }
     const responseChat = {
-        ...chat._doc,
+        messages:chat.messages,
         name: chat.name || "Chat sin nombre",
-        thumbnail: chat.image || "https://via.placeholder.com/150",
+        thumbnail: chat.thumbnail || "https://via.placeholder.com/150",
       };
 console.log(responseChat);
 
