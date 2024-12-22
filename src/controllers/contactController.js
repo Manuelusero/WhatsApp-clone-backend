@@ -5,7 +5,7 @@ export const createContact = async (req, res) => {
   console.log('Datos recibidos:', req.body);
 console.log('Archivo recibido:', req.file);
 
-    const { name, email, phone,image, } = req.body;
+    const { name, email, phone } = req.body;
     const userId = req.user.id;
     
     let imageBase64 = '';
@@ -65,17 +65,32 @@ console.log('Archivo recibido:', req.file);
         thumbnail: contact.thumbnail, 
       }));
 
-  
-      // if (!contacts || contacts.length === 0) {
-      //   return res.status(404).json({ message: 'No se encontraron contactos' });
-      // }
-  
- 
      
       res.status(200).json({contacts:formattedContacts});
     } catch (error) {
       console.error('Error al obtener contactos:', error);
       res.status(500).json({ message: 'Error al obtener los contactos' });
+    }
+  };
+
+  export const getContact = async (req,res) => {
+ 
+    try {
+      const contact = await Contact.findOne({contactId: req.params.contactId});   
+  
+      if (!contact) {
+        return res.status(404).json({ message: "Contacto no encontrado" });
+      }
+      const responseContact = {
+          ...contact._doc,
+          name: contact.name || "Contacto sin nombre",
+          thumbnail: contact.image || "https://via.placeholder.com/150",
+        };
+  console.log(responseContact);
+  
+      res.json(responseContact);
+    } catch (error) {
+      res.status(500).json({ message: "Error al obtener el contacto", error: error.message });
     }
   };
   

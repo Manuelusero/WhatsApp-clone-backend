@@ -7,7 +7,7 @@ import mongoose from "mongoose";
 const router = Router();
 
 
-export const getChatByUserId = async (req, res) => {
+export const getChat = async (req, res) => {
  
   try {
     const chat = await Chats.findOne({userId: req.params.userId, contactId: req.params.contactId});
