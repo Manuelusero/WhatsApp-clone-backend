@@ -76,7 +76,7 @@ console.log('Archivo recibido:', req.file);
   export const getContact = async (req,res) => {
  
     try {
-      const contact = await Contact.findOne({contactId: req.params.contactId});   
+      const contact = await Contact.findOne({ _id: req.params.contactId });   //({contactId: req.params.contactId}) - antes
   
       if (!contact) {
         return res.status(404).json({ message: "Contacto no encontrado" });
