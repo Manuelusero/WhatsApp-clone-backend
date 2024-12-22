@@ -73,22 +73,6 @@ console.log('Archivo recibido:', req.file);
     }
   };
 
-  // export const getContact = async (req,res) => {
- 
-  //   try {
-  //     const contact = await Contact.findOne({contactId: req.params.contactId});   //({contactId: req.params.contactId})
-  
-  //     if (!contact) {
-  //       return res.status(404).json({ message: "Contacto no encontrado" });
-  //     } 
-  //     res.status(200).json({
-  //       name: contact.name || "Contacto sin nombre",
-  //       thumbnail: contact.image || "https://via.placeholder.com/150",
-  //     });
-  //   } catch (error) {
-  //     res.status(500).json({ message: "Error al obtener el contacto", error: error.message });
-  //   }
-  // };
   export const getContact = async (req, res) => {
     try {
       const { contactId } = req.params;
@@ -102,7 +86,7 @@ console.log('Archivo recibido:', req.file);
         });
       }
   
-      res.json(contact);
+      res.status(200).json(contact);
     } catch (error) {
       res.status(500).json({
         ok: false,

@@ -106,6 +106,31 @@ export const loginUser = async (req, res) => {
 };
 
 
+export const getUser = async (req, res) => {
+  try {
+    console.log("User recibido en backend:", req.user); 
+    const userId = req.user.id;
+
+    const user = await User.findById(userId);
+    if (!user) {
+      return res.status(404).json({
+        ok: false,
+        message: "Usuario no encontrado",
+      });
+    }
+
+    res.status(200).json(user);
+    
+  } catch (error) {
+    res.status(500).json({
+      ok: false,
+      message: "Error al obtener el usuario",
+      detail: error.message,
+    });
+  }
+};
+
+
 // export const forgotPassword = async (req, res) => {
 //   const { email } = req.body;
 

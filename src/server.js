@@ -5,10 +5,6 @@ import cors from 'cors';
 import authRoutes from './routes/authRoutes.js';
 import contactRoutes from './routes/contactRoutes.js';
 import fs from 'fs';
-import upload from './middlewares/upload.js';
-import handleMulterErrors from './middlewares/handleMulterErrors';
-import { createContact } from './controllers/contactController.js';
-import { authMiddleware } from './middlewares/authMiddleware.js';
 import chatRoutes from './routes/chatRoutes.js';
 
 
