@@ -10,8 +10,7 @@ const router = Router();
 export const getChat = async (req, res) => {
  
   try {
-    const chat = await Chats.findOne({userId: req.params.userId, contactId: req.params.contactId});
-    // .populate("userId", "name image");     
+    const chat = await Chats.findOne({userId: req.user.id, contactId: req.params.contactId});
 
     if (!chat) {
       return res.status(404).json({ message: "Chat no encontrado" });
@@ -32,7 +31,8 @@ console.log(responseChat);
 
 
 export const updateChatMessages = async (req, res) => {
-  const {userId, contactId} = req.params;
+  const userId = req.user.id;
+  const {contactId} = req.params;
   const { messages } = req.body;
   try {
     const updatedChat = await Chats.findOneAndUpdate(
@@ -51,7 +51,8 @@ export const updateChatMessages = async (req, res) => {
 
 export const createChat = async (req, res) => {
     console.log("Datos recibidos en la creación del chat:", req.body); 
-  const { userId, contactId } = req.body;
+  const userId = req.user.id;
+    const {contactId } = req.body;
 
   try {   
     if (!mongoose.Types.ObjectId.isValid(userId)) {
