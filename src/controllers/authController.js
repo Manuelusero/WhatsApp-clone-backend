@@ -81,7 +81,6 @@ export const loginUser = async (req, res) => {
       return res.status(400).json({ message: "Credenciales mal" });
     }
     
-    
     if (!user.isVerified) {
       return res.status(403).json({ message: "Cuenta no verificada. Por favor, verifica tu correo." });
     }
@@ -90,14 +89,6 @@ export const loginUser = async (req, res) => {
         return res.status(400).json({ message: "Credenciales feas" });
     }
 
-    // // Validar contraseña
-
-    // const isPasswordValid = await bcrypt.compare(password, user.password);
-    // if (!isPasswordValid)  {
-    //   return res.status(400).json({ message: "Credenciales inválidas" });
-    // }
-
-    // Generar token
     const token = jwt.sign(
       { id: user._id, role: user.role }, process.env.JWT_SECRET, {
       expiresIn: "1d",
@@ -115,57 +106,55 @@ export const loginUser = async (req, res) => {
 };
 
 
+// export const forgotPassword = async (req, res) => {
+//   const { email } = req.body;
 
-// Recuperar contraseña
-export const forgotPassword = async (req, res) => {
-  const { email } = req.body;
+//   try {
+//     const user = await User.findOne({ email });
+//     if (!user) {
+//       return res.status(400).json({ message: "El correo no está registrado." });
+//     }
 
-  try {
-    const user = await User.findOne({ email });
-    if (!user) {
-      return res.status(400).json({ message: "El correo no está registrado." });
-    }
+//     const resetToken = crypto.randomBytes(32).toString("hex");
+//     user.resetToken = resetToken;
+//     user.resetTokenExpire = Date.now() + 3600000; 
+//     await user.save();
 
-    const resetToken = crypto.randomBytes(32).toString("hex");
-    user.resetToken = resetToken;
-    user.resetTokenExpire = Date.now() + 3600000; 
-    await user.save();
+//     await sendResetPasswordEmail(email, resetToken);
 
-    await sendResetPasswordEmail(email, resetToken);
+//     res.status(200).json({ message: "Correo de recuperación enviado." });
+//   } catch (error) {
+//     console.error("Error al enviar correo de recuperación:", error);
+//     res.status(500).json({ message: "Error interno del servidor." });
+//   }
+// };
 
-    res.status(200).json({ message: "Correo de recuperación enviado." });
-  } catch (error) {
-    console.error("Error al enviar correo de recuperación:", error);
-    res.status(500).json({ message: "Error interno del servidor." });
-  }
-};
+// // Restablecer contraseña
+// export const resetPassword = async (req, res) => {
+//   const { token } = req.params;
+//   const { newPassword } = req.body;
 
-// Restablecer contraseña
-export const resetPassword = async (req, res) => {
-  const { token } = req.params;
-  const { newPassword } = req.body;
+//   try {
+//     const user = await User.findOne({
+//       resetToken: token,
+//       resetTokenExpire: { $gt: Date.now() },
+//     });
 
-  try {
-    const user = await User.findOne({
-      resetToken: token,
-      resetTokenExpire: { $gt: Date.now() },
-    });
+//     if (!user) {
+//       return res.status(400).json({ message: "Token inválido o expirado." });
+//     }
 
-    if (!user) {
-      return res.status(400).json({ message: "Token inválido o expirado." });
-    }
+//     user.password = await bcrypt.hash(newPassword, 10);
+//     user.resetToken = null;
+//     user.resetTokenExpire = null;
+//     await user.save();
 
-    user.password = await bcrypt.hash(newPassword, 10);
-    user.resetToken = null;
-    user.resetTokenExpire = null;
-    await user.save();
-
-    res.status(200).json({ message: "Contraseña actualizada con éxito." });
-  } catch (error) {
-    console.error("Error al restablecer contraseña:", error);
-    res.status(500).json({ message: "Error interno del servidor." });
-  }
-};
+//     res.status(200).json({ message: "Contraseña actualizada con éxito." });
+//   } catch (error) {
+//     console.error("Error al restablecer contraseña:", error);
+//     res.status(500).json({ message: "Error interno del servidor." });
+//   }
+// };
 
 // Función para enviar correos electrónicos
 export const sendVerificationEmail = async (email, verificationToken) => {

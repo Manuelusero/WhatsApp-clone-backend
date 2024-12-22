@@ -15,14 +15,12 @@ export const getChat = async (req, res) => {
     if (!chat) {
       return res.status(404).json({ message: "Chat no encontrado" });
     }
-    const responseChat = {
-        messages:chat.messages,
-        name: chat.name || "Chat sin nombre",
-        thumbnail: chat.thumbnail || "https://via.placeholder.com/150",
-      };
-console.log(responseChat);
+    res.status(200).json({
+      messages:chat.messages,
+      name: chat.name || "Chat sin nombre",
+      thumbnail: chat.thumbnail || "https://via.placeholder.com/150",
+    });
 
-    res.json(responseChat);
   } catch (error) {
     res.status(500).json({ message: "Error al obtener el chat", error: error.message });
   }
