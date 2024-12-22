@@ -73,20 +73,42 @@ console.log('Archivo recibido:', req.file);
     }
   };
 
-  export const getContact = async (req,res) => {
+  // export const getContact = async (req,res) => {
  
-    try {
-      const contact = await Contact.findOne({contactId: req.params.contactId});   //({contactId: req.params.contactId})
+  //   try {
+  //     const contact = await Contact.findOne({contactId: req.params.contactId});   //({contactId: req.params.contactId})
   
+  //     if (!contact) {
+  //       return res.status(404).json({ message: "Contacto no encontrado" });
+  //     } 
+  //     res.status(200).json({
+  //       name: contact.name || "Contacto sin nombre",
+  //       thumbnail: contact.image || "https://via.placeholder.com/150",
+  //     });
+  //   } catch (error) {
+  //     res.status(500).json({ message: "Error al obtener el contacto", error: error.message });
+  //   }
+  // };
+  export const getContact = async (req, res) => {
+    try {
+      const { contactId } = req.params;
+      console.log("contactId recibido en backend:", contactId);
+  
+      const contact = await Contact.findById(contactId);
       if (!contact) {
-        return res.status(404).json({ message: "Contacto no encontrado" });
-      } 
-      res.status(200).json({
-        name: contact.name || "Contacto sin nombre",
-        thumbnail: contact.image || "https://via.placeholder.com/150",
-      });
+        return res.status(404).json({
+          ok: false,
+          message: "Contacto no encontrado",
+        });
+      }
+  
+      res.json(contact);
     } catch (error) {
-      res.status(500).json({ message: "Error al obtener el contacto", error: error.message });
+      res.status(500).json({
+        ok: false,
+        message: "Error al obtener el contacto",
+        detail: error.message,
+      });
     }
   };
   
