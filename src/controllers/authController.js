@@ -60,7 +60,8 @@ export const verifyUser = async (req, res) => {
 
     console.log("Cuenta verificada correctamente. Redirigiendo al login...");
 
-    res.redirect('https://whatsapp-clone-frontend-lilac.vercel.app/');
+    res.status(200).json({ message: 'Cuenta verificada correctamente.' });
+
   } catch (error) {
     console.error('Error al verificar usuario:', error);
     res.status(500).json({ message: 'Error al verificar el usuario', error });
